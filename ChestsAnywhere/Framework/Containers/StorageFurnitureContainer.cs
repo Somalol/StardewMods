@@ -44,7 +44,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Framework.Containers
             this.Furniture = furniture;
             this.Data = new ContainerData(furniture.modData);
 
-            StorageFurnitureContainer.DresserCategories ??= new HashSet<int>(new ShopMenu(new List<ISalable>(), context: "Dresser").categoriesToSellHere);
+            StorageFurnitureContainer.DresserCategories ??= new HashSet<int>(new ShopMenu("Dresser", new List<ISalable>()).categoriesToSellHere);
         }
 
         /// <summary>Get whether the inventory can accept the item type.</summary>
@@ -80,7 +80,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere.Framework.Containers
                 .OfType<ISalable>() // cast as ISalable, and also ignore null in rare cases
                 .ToDictionary(item => item, _ => new ItemStockInformation(0, 1));
 
-            return new ShopMenu(itemPriceAndStock, 0, null, this.Furniture.onDresserItemWithdrawn, this.Furniture.onDresserItemDeposited, this.Furniture.GetShopMenuContext())
+            return new ShopMenu(this.Furniture.GetShopMenuContext(), itemPriceAndStock, 0, null, this.Furniture.onDresserItemWithdrawn, this.Furniture.onDresserItemDeposited)
             {
                 source = this.Furniture,
                 behaviorBeforeCleanup = _ => this.Furniture.mutex.ReleaseLock()

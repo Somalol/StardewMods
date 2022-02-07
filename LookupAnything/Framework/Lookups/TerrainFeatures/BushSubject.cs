@@ -194,7 +194,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Lookups.TerrainFeatures
                 if (minDate < tomorrow)
                     minDate = tomorrow;
 
-                if (minDate.Season == Season.Winter && !bush.greenhouseBush.Value && this.Location.locationContext != GameLocation.LocationContext.Island)
+                if (minDate.Season == Season.Winter && !bush.greenhouseBush.Value && this.Location.locationContext != LocationContext.Island)
                     return new(22, Season.Spring, minDate.Year + 1);
                 if (minDate.Day < 22)
                     return new(22, minDate.Season);

@@ -221,10 +221,6 @@ namespace Pathoschild.Stardew.TractorMod.Framework
                 case Forest { log: not null } forest:
                     clumps = clumps.Concat(new[] { forest.log });
                     break;
-
-                case Woods woods when woods.stumps.Any():
-                    clumps = clumps.Concat(woods.stumps);
-                    break;
             }
 
             return clumps;
@@ -296,7 +292,7 @@ namespace Pathoschild.Stardew.TractorMod.Framework
                 tool: tool,
                 toolRect: new Rectangle((int)useAt.X, (int)useAt.Y, Game1.tileSize, Game1.tileSize)
             );
-            if (animal == null || animal.toolUsedForHarvest.Value != tool.BaseName || !CommonHelper.IsItemId(animal.currentProduce.Value, allowZero: false) || animal.age.Value < animal.ageWhenMature.Value)
+            if (animal == null || !animal.CanGetProduceWithTool(tool) || !CommonHelper.IsItemId(animal.currentProduce.Value, allowZero: false) || animal.isBaby())
                 return null;
 
             return animal;
@@ -391,7 +387,7 @@ namespace Pathoschild.Stardew.TractorMod.Framework
             if (random.NextDouble() < (this.FoundGoldenScythe.Value ? 0.75 : 0.5))
             {
                 if (Game1.getFarm().tryToAddHay(1) == 0) // returns number left
-                    Game1.addHUDMessage(new HUDMessage("Hay", HUDMessage.achievement_type, true, Color.LightGoldenrodYellow, new SObject("178", 1)));
+                    Game1.addHUDMessage(HUDMessage.ForItemGained(new SObject("178", 1), 1));
             }
 
             return true;
