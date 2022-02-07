@@ -6,7 +6,6 @@ using Pathoschild.Stardew.Common;
 using Pathoschild.Stardew.DataLayers.Framework;
 using StardewValley;
 using StardewValley.Buildings;
-using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.TerrainFeatures;
 
@@ -64,14 +63,14 @@ namespace Pathoschild.Stardew.DataLayers.Layers.Coverage
         /// <param name="cursorTile">The tile position under the cursor.</param>
         public override TileGroup[] Update(GameLocation location, in Rectangle visibleArea, in Vector2[] visibleTiles, in Vector2 cursorTile)
         {
-            if (location is not BuildableGameLocation buildableLocation)
+            if (!location.IsBuildableLocation())
                 return Array.Empty<TileGroup>();
 
             // get Junimo huts
             Rectangle searchArea = visibleArea.Expand(this.MaxRadius);
             JunimoHut[] huts =
                 (
-                    from JunimoHut hut in buildableLocation.buildings.OfType<JunimoHut>()
+                    from JunimoHut hut in location.buildings.OfType<JunimoHut>()
                     where searchArea.Contains(hut.tileX.Value, hut.tileY.Value)
                     select hut
                 )
@@ -128,11 +127,11 @@ namespace Pathoschild.Stardew.DataLayers.Layers.Coverage
         private bool IsBuildingHut()
         {
             // vanilla menu
-            if (Game1.activeClickableMenu is CarpenterMenu carpenterMenu && carpenterMenu.CurrentBlueprint.name == "Junimo Hut")
+            if (Game1.activeClickableMenu is CarpenterMenu carpenterMenu && carpenterMenu.Blueprint.Id == "Junimo Hut")
                 return true;
 
             // Pelican Fiber menu
-            if (this.Mods.PelicanFiber.IsLoaded && this.Mods.PelicanFiber.GetBuildMenuBlueprint()?.name == "Junimo Hut")
+            if (this.Mods.PelicanFiber.IsLoaded && this.Mods.PelicanFiber.GetBuildMenuBlueprint()?.Id == "Junimo Hut")
                 return true;
 
             return false;
