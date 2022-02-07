@@ -24,7 +24,7 @@ namespace Pathoschild.Stardew.TractorMod.Framework.Attachments
         private readonly ScytheConfig Config;
 
         /// <summary>A cache of is-flower checks by item ID for <see cref="ShouldHarvest"/>.</summary>
-        private readonly Dictionary<int, bool> IsFlowerCache = new();
+        private readonly Dictionary<string, bool> IsFlowerCache = new();
 
 
         /*********
@@ -132,7 +132,7 @@ namespace Pathoschild.Stardew.TractorMod.Framework.Attachments
                 return this.Config.HarvestFlowers;
 
             // forage
-            if (crop.whichForageCrop.Value > 0)
+            if (CommonHelper.IsItemId(crop.whichForageCrop.Value, allowZero: false))
                 return this.Config.HarvestForage;
 
             // crop
@@ -146,7 +146,7 @@ namespace Pathoschild.Stardew.TractorMod.Framework.Attachments
             if (crop == null)
                 return false;
 
-            int cropId = crop.indexOfHarvest.Value;
+            string cropId = crop.indexOfHarvest.Value;
             if (!this.IsFlowerCache.TryGetValue(cropId, out bool isFlower))
             {
                 try
