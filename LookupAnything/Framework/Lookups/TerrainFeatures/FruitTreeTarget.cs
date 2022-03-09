@@ -122,7 +122,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Lookups.TerrainFeatures
 
             // use vanilla logic
             texture = target.texture;
-            sourceRect = new Rectangle(x: 0, y: target.spriteRowNumber.Value * 5 * 16, width: 432, height: 80);
+            sourceRect = new Rectangle(x: 0, y: target.GetSpriteRowNumber() * 5 * 16, width: 432, height: 80);
         }
     }
 }

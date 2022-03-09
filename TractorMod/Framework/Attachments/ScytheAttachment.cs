@@ -251,7 +251,7 @@ namespace Pathoschild.Stardew.TractorMod.Framework.Attachments
             switch (terrainFeature)
             {
                 case FruitTree tree:
-                    if (this.Config.HarvestFruitTrees && tree.fruitsOnTree.Value > 0)
+                    if (this.Config.HarvestFruitTrees && tree.fruit.Count > 0)
                     {
                         tree.performUseAction(tile, location);
                         return true;
