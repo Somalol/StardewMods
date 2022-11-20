@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Version>1.22.7</Version>
     <RootNamespace>Pathoschild.Stardew.ChestsAnywhere</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 
     <TranslationClassBuilder_AddGetByKey>true</TranslationClassBuilder_AddGetByKey>
   </PropertyGroup>
