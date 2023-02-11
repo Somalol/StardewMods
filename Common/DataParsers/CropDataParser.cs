@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using StardewModdingAPI.Utilities;
 using StardewValley;
+using StardewValley.GameData.Crops;
 using SObject = StardewValley.Object;
 
 namespace Pathoschild.Stardew.Common.DataParsers
@@ -14,6 +15,9 @@ namespace Pathoschild.Stardew.Common.DataParsers
         *********/
         /// <summary>The crop.</summary>
         public Crop? Crop { get; }
+
+        /// <summary>The crop's underlying data.</summary>
+        public CropData? CropData { get; }
 
         /// <summary>The seasons in which the crop grows.</summary>
         public string[] Seasons { get; }
@@ -43,15 +47,18 @@ namespace Pathoschild.Stardew.Common.DataParsers
         public CropDataParser(Crop? crop, bool isPlanted)
         {
             this.Crop = crop;
-            if (crop != null)
+            this.CropData = crop?.GetData();
+
+            var data = this.CropData;
+            if (data != null)
             {
                 // get crop data
-                this.Seasons = crop.seasonsToGrowIn.ToArray();
-                this.HasMultipleHarvests = crop.regrowAfterHarvest.Value == -1;
+                this.Seasons = data.Seasons.ToArray();
+                this.HasMultipleHarvests = crop!.RegrowsAfterHarvest();
                 this.HarvestablePhase = crop.phaseDays.Count - 1;
                 this.CanHarvestNow = (crop.currentPhase.Value >= this.HarvestablePhase) && (!crop.fullyGrown.Value || crop.dayOfCurrentPhase.Value <= 0);
                 this.DaysToFirstHarvest = crop.phaseDays.Take(crop.phaseDays.Count - 1).Sum(); // ignore harvestable phase
-                this.DaysToSubsequentHarvest = crop.regrowAfterHarvest.Value;
+                this.DaysToSubsequentHarvest = data.RegrowDays;
 
                 // adjust for agriculturist profession (10% faster initial growth)
                 if (!isPlanted && Game1.player.professions.Contains(Farmer.agriculturist))
@@ -69,6 +76,11 @@ namespace Pathoschild.Stardew.Common.DataParsers
             if (crop == null)
                 throw new InvalidOperationException("Can't get the harvest date because there's no crop.");
 
+            // get data
+            CropData? data = this.CropData;
+            if (data == null)
+                throw new InvalidOperationException("Can't get the harvest date because the crop has no data.");
+
             // ready now
             if (this.CanHarvestNow)
                 return SDate.Now();
@@ -81,8 +93,8 @@ namespace Pathoschild.Stardew.Common.DataParsers
             }
 
             // regrowable crop harvested today
-            if (crop.dayOfCurrentPhase.Value >= crop.regrowAfterHarvest.Value)
-                return SDate.Now().AddDays(crop.regrowAfterHarvest.Value);
+            if (crop.dayOfCurrentPhase.Value >= data.RegrowDays)
+                return SDate.Now().AddDays(data.RegrowDays);
 
             // regrowable crop
             // dayOfCurrentPhase decreases to 0 when fully grown, where <=0 is harvestable
