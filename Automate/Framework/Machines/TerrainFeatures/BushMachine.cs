@@ -128,7 +128,7 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures
         {
             // get info
             Bush bush = this.Machine;
-            string season = Game1.GetSeasonForLocation(bush.currentLocation);
+            string season = Game1.GetSeasonKeyForLocation(bush.currentLocation);
             int day = Game1.dayOfMonth;
 
             // check if in season

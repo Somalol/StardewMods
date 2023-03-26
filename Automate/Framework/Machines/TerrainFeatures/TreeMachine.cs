@@ -142,7 +142,7 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures
             WildTreeData? data = tree.GetWildTreeData();
 
             string? seed = data?.SeedItemId;
-            if (Game1.GetSeasonForLocation(location) == "fall" && seed == "309"/*acorn*/ && Game1.dayOfMonth >= 14)
+            if (Game1.GetSeasonForLocation(location) == Season.Fall && seed == "309"/*acorn*/ && Game1.dayOfMonth >= 14)
                 seed = "408";/*hazelnut*/
 
             return seed;

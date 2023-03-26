@@ -20,7 +20,7 @@ namespace Pathoschild.Stardew.Common.DataParsers
         public CropData? CropData { get; }
 
         /// <summary>The seasons in which the crop grows.</summary>
-        public string[] Seasons { get; }
+        public Season[] Seasons { get; }
 
         /// <summary>The phase index in <see cref="StardewValley.Crop.phaseDays"/> when the crop can be harvested.</summary>
         public int HarvestablePhase { get; }
@@ -65,7 +65,7 @@ namespace Pathoschild.Stardew.Common.DataParsers
                     this.DaysToFirstHarvest = (int)(this.DaysToFirstHarvest * 0.9);
             }
             else
-                this.Seasons = Array.Empty<string>();
+                this.Seasons = Array.Empty<Season>();
         }
 
         /// <summary>Get the date when the crop will next be ready to harvest.</summary>
