@@ -1,5 +1,4 @@
 using Pathoschild.Stardew.Common.Integrations.Automate;
-using Pathoschild.Stardew.Common.Integrations.BetterJunimos;
 using Pathoschild.Stardew.Common.Integrations.BetterSprinklers;
 using Pathoschild.Stardew.Common.Integrations.LineSprinklers;
 using Pathoschild.Stardew.Common.Integrations.MultiFertilizer;
@@ -17,9 +16,6 @@ namespace Pathoschild.Stardew.DataLayers.Framework
         *********/
         /// <summary>Handles access to the Automate mod.</summary>
         public AutomateIntegration Automate { get; }
-
-        /// <summary>Handles access to the Better Junimos mod.</summary>
-        public BetterJunimosIntegration BetterJunimos { get; }
 
         /// <summary>Handles access to the Better Sprinklers mod.</summary>
         public BetterSprinklersIntegration BetterSprinklers { get; }
@@ -47,7 +43,6 @@ namespace Pathoschild.Stardew.DataLayers.Framework
         public ModIntegrations(IMonitor monitor, IModRegistry modRegistry, IReflectionHelper reflection)
         {
             this.Automate = new AutomateIntegration(modRegistry, monitor);
-            this.BetterJunimos = new BetterJunimosIntegration(modRegistry, monitor);
             this.BetterSprinklers = new BetterSprinklersIntegration(modRegistry, monitor);
             this.LineSprinklers = new LineSprinklersIntegration(modRegistry, monitor);
             this.MultiFertilizer = new MultiFertilizerIntegration(modRegistry, monitor);
